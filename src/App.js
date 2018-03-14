@@ -3,7 +3,9 @@ import './App.css';
 import FilmListing from './FilmListing'
 import FilmDetails from './FilmDetails'
 import TMDB from './TMDB'
+import Dotenv from 'dotenv';
 
+Dotenv.config()
 const films = TMDB.films
 
 class App extends Component {
@@ -33,7 +35,13 @@ class App extends Component {
 }
 
 handleDetailsClick(film){
-  console.log("fetching: " + film.title)
+  console.log(film)
+  const url = `https://api.themoviedb.org/3/movie/${film.id}?api_key=${process.env.REACT_APP_API_KEY}&append_to_response=videos,images&language=en`
+  fetch(url).then(response => {
+  response.json().then(data => {
+      //console.log(data) // take a look at what you get back!
+    })
+  })
   this.setState({
     current: film
   })
